@@ -653,7 +653,7 @@ class Proxmox extends ClassServer
     {
         $node = $server->node;
         $sshHost = $node->ssh_host ?? $node->location->host;
-        $sshHost = preg_replace('/^https?:\/\
+        $sshHost = preg_replace('/^https?:\/\//', '', $sshHost); // 修复了这里
         $sshHost = preg_replace('/:\d+$/', '', $sshHost);
         $sshPort = $node->ssh_port ?? 22;
         $sshPassword = $node->ssh_password;
@@ -702,7 +702,7 @@ class Proxmox extends ClassServer
         $node = $server->node;
         
         $sshHost = $node->ssh_host ?? $node->location->host;
-        $sshHost = preg_replace('/^https?:\/\
+        $sshHost = preg_replace('/^https?:\/\//', '', $sshHost); // 修复了这里
         $sshHost = preg_replace('/:\d+$/', '', $sshHost);
         $sshPort = $node->ssh_port ?? 22;
         $sshPassword = $node->ssh_password;
@@ -1045,7 +1045,7 @@ class Proxmox extends ClassServer
         ])->throw()->json()['data'];
 
         $domain = rtrim($server->node->location->host, '/');
-        $domain = preg_replace('/^https?:\/\
+        $domain = preg_replace('/^https?:\/\//', '', $domain);
         $domain = preg_replace('/:\d+$/', '', $domain);
 
         $vnc = Http::withCookies([
@@ -1058,7 +1058,7 @@ class Proxmox extends ClassServer
                 'websocket' => 1,
             ])->json()['data'];
         $paymenterDomain = rtrim(config('settings.app_url'), '/');
-        $paymenterDomain = preg_replace('/^https?:\/\
+        $paymenterDomain = preg_replace('/^https?:\/\//', '', $paymenterDomain);
         $paymenterDomain = preg_replace('/:\d+$/', '', $paymenterDomain);
         $parts = explode('.', $paymenterDomain);
         if (count($parts) >= 2) {
